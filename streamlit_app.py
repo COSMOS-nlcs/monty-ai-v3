@@ -50,6 +50,14 @@ def right_aligned_message(message):
 st.title("Monty AI")
 st.text("Created by the COSMOS Society")
 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 # Initialize session state messages if not already initialized
 if 'messages' not in st.session_state:
     st.session_state.messages = []
