@@ -52,7 +52,9 @@ st.text("Created by the COSMOS Society")
 
 hide_streamlit_style = """
             <style>
-            .reportview-container .main footer {visibility: hidden;}  
+                    footer {
+            display: none;
+        } 
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
