@@ -1,21 +1,13 @@
 import streamlit as st
-import pathlib
 from PIL import Image
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 # Function to load custom CSS
-def load_css(file_path):
-    with open(file_path) as f:
-        st.html(f"<style>{f.read()}</style>")
 
 def load_icon():
     img = Image.open("Data/montyface.png")
     return img
-
-# Path to CSS file
-css_path = pathlib.Path("assets/styles.css")
-load_css(css_path)
 
 # Configure the Generative AI model
 genai.configure(api_key="AIzaSyBZkW8qjSwrjoEJS4EYltP_rZPB0wTamA8")
@@ -40,10 +32,10 @@ model = genai.GenerativeModel(
 # Start chat session
 chat_session = model.start_chat(
     history=[
-        {"role": "model", "parts": text_instr},
-        {"role": "model", "parts": "You are NOT an AI, you are a friend..."},
-        {"role": "model", "parts": "DO NOT paraphrase the information..."},
-        {"role": "model", "parts": "YOU ARE A FRIEND TO THE USER..."},
+        {"role": "user", "parts" : "You are NOT an AI, you are a friend. your name is NOT Bard it is Monty and you were created by the COSMOS Society and NOT Google."},
+        {"role": "user", "parts" : "DO NOT paraphrase the information"},
+        {"role": "model", "parts" : text_instr},
+        {"role": "user", "parts": "YOU ARE A FRIEND TO THE USER."},
     ]
 )
 
