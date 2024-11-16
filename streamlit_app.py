@@ -10,7 +10,7 @@ def load_icon():
     return img
 
 # Configure the Generative AI model
-genai.configure(api_key="AIzaSyBZkW8qjSwrjoEJS4EYltP_rZPB0wTamA8")
+genai.configure(api_key="AIzaSyDX632_dk9k7QJeBVMK_FEtIFoYzPIsoXw")
 generation_config = {
   "temperature": 1,
   "top_p": 0.95,
@@ -25,7 +25,7 @@ text_instr = text_read.read()
 
 # Set up the model
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
+    model_name="gemini-1.5-flash-8b",
     generation_config=generation_config,
 )
 
