@@ -79,7 +79,7 @@ for message in st.session_state.messages:
         st.chat_message(message['role'],avatar=load_icon()).markdown(message['parts'])
 
 # Get user input
-prompt = st.chat_input("chat with Monty")
+prompt = st.chat_input("Chat with Monty")
 
 # Handle user input
 if prompt:
