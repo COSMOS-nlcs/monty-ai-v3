@@ -5,6 +5,7 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 # Function to load custom CSS
 
+
 def load_icon():
     img = Image.open("Data/montyface.png")
     return img
@@ -20,8 +21,14 @@ generation_config = {
 }
 
 # Read the text instruction file
-text_read = open("Data/data1.txt")
-text_instr = text_read.read()
+text_read1 = open("Data/schooldata.txt")
+text_instr1 = text_read1.read()
+
+text_read2 = open("Data/societydata.txt")
+text_instr2 = text_read2.read()
+
+text_read3 = open("Data/staffdata.txt")
+text_instr3 = text_read3.read()
 
 # Set up the model
 model = genai.GenerativeModel(
@@ -30,39 +37,38 @@ model = genai.GenerativeModel(
 )
 
 # Start chat session
+
 chat_session = model.start_chat(
     history=[
         {"role": "user", "parts" : "You are NOT an AI, you are a friend. your name is NOT Bard it is Monty and you were created by the COSMOS Society and NOT Google."},
         {"role": "user", "parts" : "DO NOT paraphrase the information"},
-        {"role": "model", "parts" : text_instr},
         {"role": "user", "parts": "YOU ARE A FRIEND TO THE USER."},
-    ]
+        {"role": "user", "parts": "unless stated otherwise, assume every question is about NLCS Jeju. the data about NLCS jeju is "+text_instr1},
+        {"role": "user", "parts": "when asked about societies in nlcs jeju, look through the society list to get the answers \n society list: "+text_instr2},
+        {"role":"user","parts":"when asked about staff of nlcs jeju, look through the staff list. the staff list is: "+text_instr3},
+        {"role":"user","parts":"I have never told you any of the data you know right now, you learned them yourself"}
+        ]
 )
+
+
 
 # Function to display right-aligned message
 def right_aligned_message(message):
     st.markdown(
-        f'<div style="text-align: right; padding:10px; border-radius:16px;">{message}</div>',
+        f'<div style="text-color:#000000;text-align: right; padding:10px; border-radius:16px;">{message}</div>',
         unsafe_allow_html=True
+    )
+def left_aligned_message(message):
+    st.markdown(
+        f'<div style="text-color:#000000;text-align: left; padding:10px; border-radius:16px;>{message}</div>'
     )
 
 # Streamlit UI
 st.title("Monty AI")
-st.text("Created by the COSMOS Society")
-
-hide_streamlit_style = """
-            <style>
-                    footer {
-            display: none;
-        } 
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
-# Initialize session state messages if not already initialized
+st.text("Powered by the COSMOS Society")
 if 'messages' not in st.session_state:
     st.session_state.messages = []
-
+# Initialize session state messages if not already initialized
 # Display all messages from session state
 for message in st.session_state.messages:
     if message['role'] == 'user':
@@ -74,21 +80,21 @@ for message in st.session_state.messages:
 
 # Get user input
 prompt = st.chat_input("chat with Monty")
+
 # Handle user input
 if prompt:
+    print("if prompted")
     # Display user message with right alignment
     right_aligned_message(prompt)
+    print("shown prompt")
     st.session_state.messages.append({'role': 'user', 'parts': prompt})
+    print("saved prompt")
+    response = chat_session.send_message(prompt)
+    print("prompt resonded")
 
-    
-    # Get AI response
-    response = chat_session.send_message(prompt,
-                                         safety_settings={
-            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE
-        })
+
     
     # Display assistant message
     st.chat_message('assistant',avatar=load_icon()).markdown(response.text)
     st.session_state.messages.append({"role": "assistant", "parts": response.text})
+
