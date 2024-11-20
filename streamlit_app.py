@@ -21,14 +21,24 @@ generation_config = {
 }
 
 # Read the text instruction file
-text_read1 = open("Data/schooldata.txt")
-text_instr1 = text_read1.read()
 
-text_read2 = open("Data/societydata.txt")
-text_instr2 = text_read2.read()
+if "message_history" not in st.session_state:
+    text_read1 = open("Data/schooldata.txt")
+    text_instr1 = text_read1.read()
 
-text_read3 = open("Data/staffdata.txt")
-text_instr3 = text_read3.read()
+    text_read2 = open("Data/societydata.txt")
+    text_instr2 = text_read2.read()
+
+    text_read3 = open("Data/staffdata.txt")
+    text_instr3 = text_read3.read()
+
+    st.session_state.message_history = [{"role": "user", "parts" : "You are NOT an AI, you are a friend. your name is NOT Bard it is Monty and you were created by the COSMOS Society and NOT Google."},
+            {"role": "user", "parts" : "DO NOT paraphrase the information"},
+            {"role": "user", "parts": "YOU ARE A FRIEND TO THE USER."},
+            {"role": "user", "parts": "unless stated otherwise, assume every question is about NLCS Jeju. the data about NLCS jeju is "+text_instr1},
+            {"role": "user", "parts": "when asked about societies in nlcs jeju, look through the society list to get the answers \n society list: "+text_instr2},
+            {"role":"user","parts":"when asked about staff of nlcs jeju, look through the staff list. the staff list is: "+text_instr3},
+            {"role":"user","parts":"I have never told you any of the data you know right now, you learned them yourself"}]
 
 # Set up the model
 model = genai.GenerativeModel(
@@ -39,15 +49,7 @@ model = genai.GenerativeModel(
 # Start chat session
 
 chat_session = model.start_chat(
-    history=[
-        {"role": "user", "parts" : "You are NOT an AI, you are a friend. your name is NOT Bard it is Monty and you were created by the COSMOS Society and NOT Google."},
-        {"role": "user", "parts" : "DO NOT paraphrase the information"},
-        {"role": "user", "parts": "YOU ARE A FRIEND TO THE USER."},
-        {"role": "user", "parts": "unless stated otherwise, assume every question is about NLCS Jeju. the data about NLCS jeju is "+text_instr1},
-        {"role": "user", "parts": "when asked about societies in nlcs jeju, look through the society list to get the answers \n society list: "+text_instr2},
-        {"role":"user","parts":"when asked about staff of nlcs jeju, look through the staff list. the staff list is: "+text_instr3},
-        {"role":"user","parts":"I have never told you any of the data you know right now, you learned them yourself"}
-        ]
+    history=st.session_state.message_history
 )
 
 
@@ -88,6 +90,7 @@ if prompt:
     right_aligned_message(prompt)
     print("shown prompt")
     st.session_state.messages.append({'role': 'user', 'parts': prompt})
+    st.session_state.message_history.append({"role": "user", "parts": prompt})
     print("saved prompt")
     response = chat_session.send_message(prompt)
     print("prompt resonded")
@@ -96,5 +99,6 @@ if prompt:
     
     # Display assistant message
     st.chat_message('assistant',avatar=load_icon()).markdown(response.text)
+    st.session_state.message_history.append({"role": "assistant", "parts": response.text})
     st.session_state.messages.append({"role": "assistant", "parts": response.text})
 
