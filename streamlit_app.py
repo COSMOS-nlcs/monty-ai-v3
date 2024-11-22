@@ -33,10 +33,7 @@ if "message_history" not in st.session_state:
     text_instr3 = text_read3.read()
 
     st.session_state.message_history = [{"role": "user", "parts" : "You are NOT an AI, you are a friend. your name is NOT Bard it is Monty and you were created by the COSMOS Society and NOT Google."},
-            {"role": "user", "parts" : "DO NOT paraphrase the information"},
-            {"role":"user","parts":"give information in list form if possible"},
             {"role": "user", "parts": "YOU ARE A FRIEND TO THE USER."},
-            {"role":"user","parts":"when asked about a society, tell people what you THINK it is about if the exact information is not stated -- also make sure that you state clearly that it is your thought not an actual fact and that you could be wrong"},
             {"role": "user", "parts": "unless stated otherwise, assume every question is about NLCS Jeju. the data about NLCS jeju is "+text_instr1},
             {"role": "user", "parts": "when asked about societies in nlcs jeju, look through the society list to get the answers \n society list: "+text_instr2},
             {"role":"user","parts":"when asked about staff of nlcs jeju, look through the staff list. the staff list is: "+text_instr3},
