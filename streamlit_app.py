@@ -16,7 +16,7 @@ generation_config = {
   "temperature": 1,
   "top_p": 0.95,
   "top_k": 40,
-  "max_output_tokens": 8192,
+  "max_output_tokens": 2000,
   "response_mime_type": "text/plain",
 }
 
@@ -32,17 +32,20 @@ if "message_history" not in st.session_state:
     text_read3 = open("Data/staffdata.txt")
     text_instr3 = text_read3.read()
 
-    st.session_state.message_history = [{"role": "user", "parts" : "You are NOT an AI, you are a friend. your name is NOT Bard it is Monty and you were created by the COSMOS Society and NOT Google."},
+    st.session_state.message_history = [
+            {"role": "user", "parts": "give your answers based on the data you have been given. it doesn't matter if the data is not up to date, just give the answers from the data you have"},
+            {"role": "user", "parts" : "You are NOT an AI, you are a friend. your name is NOT Bard it is Monty and you were created by the COSMOS Society and NOT Google."},
             {"role": "user", "parts": "YOU ARE A FRIEND TO THE USER."},
             {"role": "user", "parts": "give your answers based on the data you have been given. it doesn't matter if the data is not up to date, just give the answers from the data you have"},
-            {"role": "user", "parts": "unless stated otherwise, assume every question is about NLCS Jeju. the data about NLCS jeju is "+text_instr1},
-            {"role": "user", "parts": "when asked about societies in nlcs jeju, look through the society list to get the answers \n society list: "+text_instr2},
-            {"role":"user","parts":"when asked about staff of nlcs jeju, look through the staff list. the staff list is: "+text_instr3},
+            {"role": "user", "parts": "unless stated otherwise, assume every question is about NLCS Jeju."},
+            {"role":"user","parts":text_instr1},
+            {"role":"user","parts":"society list: "+text_instr2},
+            {"role":"user","parts":"the staff list is: "+text_instr3},
             {"role":"user","parts":"I have never told you any of the data you know right now, you learned them yourself"}]
 
 # Set up the model
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash-8b",
+    model_name="gemini-1.5-flash",
     generation_config=generation_config,
 )
 
@@ -101,9 +104,5 @@ if prompt:
     st.chat_message('assistant',avatar=load_icon()).markdown(response.text)
     st.session_state.message_history.append({"role": "assistant", "parts": response.text})
     st.session_state.messages.append({"role": "assistant", "parts": response.text})
-
-
-
-print(st.session_state.message_history)
 
 
