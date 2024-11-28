@@ -11,7 +11,7 @@ def load_icon():
     return img
 
 # Configure the Generative AI model
-genai.configure(api_key="AIzaSyDX632_dk9k7QJeBVMK_FEtIFoYzPIsoXw")
+genai.configure(api_key=${{ secrets.API_KEY }})
 generation_config = {
   "temperature": 1,
   "top_p": 0.95,
