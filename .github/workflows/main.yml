@@ -16,3 +16,6 @@ jobs:
     - name: Use Secret in Workflow
       run: echo "The API key is ${{ secrets.API_KEY }}"
       # Here, you can use the secret in your commands or scripts
+      
+    - name: Use Secret in Application
+      run: ./monty-ai-v3 --api-key="${{ secrets.API_KEY }}"
