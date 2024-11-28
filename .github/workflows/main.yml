@@ -1,4 +1,4 @@
-name: Python API Integration Workflow
+name: Streamlit AI Application Deployment
 
 on:
   push:
@@ -6,12 +6,31 @@ on:
       - main  # Trigger the workflow on push to the main branch
 
 jobs:
-  run-api-request:
+  deploy:
     runs-on: ubuntu-latest  # Runs on the latest Ubuntu runner
 
     steps:
-    - name: Run Python script with API key
-      env:
-        API_KEY: ${{ secrets.API_KEY }}  # Set the API key environment variable from GitHub Secrets
+    - name: Checkout code
+      uses: actions/checkout@v2  # Checkout the code to the runner
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'  # Use Python version 3.x
+
+    - name: Install dependencies
       run: |
-        python streamlit_app.py
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Install Python dependencies from requirements.txt
+
+    - name: Set environment variable for API Key
+      env:
+        API_KEY: ${{ secrets.API_KEY }}  # Set the API key from GitHub Secrets
+      run: |
+        echo "API_KEY=$API_KEY" >> $GITHUB_ENV  # Set the API key as an environment variable
+
+    - name: Run Streamlit app
+      env:
+        API_KEY: ${{ secrets.API_KEY }}  # Pass the API key as an environment variable to the app
+      run: |
+        streamlit run app.py  # Replace with your Streamlit app script
