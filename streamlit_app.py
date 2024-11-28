@@ -2,6 +2,11 @@ import streamlit as st
 from PIL import Image
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
+import os
+
+# Retrieve the API key from the environment variable
+API_KEY = os.getenv("API_KEY")
+
 
 # Function to load custom CSS
 
