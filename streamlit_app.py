@@ -3,6 +3,11 @@ from PIL import Image
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+api_key = os.getenv("API_KEY")
 
 # Retrieve the API key from the environment variable
 API_KEY = os.getenv("API_KEY")
