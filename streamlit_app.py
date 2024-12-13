@@ -1,3 +1,6 @@
+#Monty AI v.5
+#last update: 13th Dec. 2024
+
 import streamlit as st
 from PIL import Image
 import google.generativeai as genai
