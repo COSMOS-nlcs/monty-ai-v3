@@ -3,12 +3,8 @@ from PIL import Image
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-os.environ['API_KEY'] = st.secrets['API_KEY']
-api_key = os.getenv('API_KEY')
-API_KEY = os.getenv('API_KEY')
+API_KEY = st.secrets['API_KEY']
 
 
 # Function to load custom CSS
