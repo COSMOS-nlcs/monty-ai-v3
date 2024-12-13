@@ -6,11 +6,9 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
-api_key = os.getenv("API_KEY")
-
-# Retrieve the API key from the environment variable
-API_KEY = os.getenv("API_KEY")
+os.environ['API_KEY'] = st.secrets['API_KEY']
+api_key = os.getenv('API_KEY')
+API_KEY = os.getenv('API_KEY')
 
 
 # Function to load custom CSS
